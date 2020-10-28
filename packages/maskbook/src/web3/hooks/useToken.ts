@@ -1,10 +1,8 @@
-import { useAsync, useAsyncRetry } from 'react-use'
+import { useAsyncRetry } from 'react-use'
 import { EthereumAddress } from 'wallet.ts'
 import { useERC20TokenContract } from '../contracts/useERC20TokenContract'
 import { Token, EthereumTokenType } from '../types'
 import { useChainId } from './useChainState'
-import { useConstant } from './useConstant'
-import { CONSTANTS } from '../constants'
 import { formatChecksumAddress } from '../../plugins/Wallet/formatter'
 
 function resolveSettleResult<T>(result: PromiseSettledResult<T>, fallback: T) {
@@ -16,9 +14,8 @@ function resolveSettleResult<T>(result: PromiseSettledResult<T>, fallback: T) {
  * @param token
  */
 export function useToken(token?: PartialRequired<Token, 'address' | 'type'>) {
-    const ETH_ADDRESS = useConstant(CONSTANTS, 'ETH_ADDRESS')
     const chainId = useChainId()
-    const erc20Contract = useERC20TokenContract(token?.address ?? ETH_ADDRESS)
+    const erc20Contract = useERC20TokenContract(token?.address ?? '')
 
     return useAsyncRetry(async () => {
         if (!token?.address) return

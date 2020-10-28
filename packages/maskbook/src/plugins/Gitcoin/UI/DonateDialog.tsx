@@ -13,7 +13,7 @@ import { createEetherToken } from '../../../web3/helpers'
 import { useChainId } from '../../../web3/hooks/useChainState'
 import ActionButton from '../../../extension/options-page/DashboardComponents/ActionButton'
 import { useDonateCallback } from '../hooks/useDonateCallback'
-import { useTokenApproveCallback, ApproveState } from '../../../web3/hooks/useTokenApproveCallback'
+import { useERC20TokenApproveCallback, ApproveState } from '../../../web3/hooks/useERC20TokenApproveCallback'
 import { GITCOIN_CONSTANT } from '../constants'
 import { TransactionDialog } from '../../../web3/UI/TransactionDialog'
 import { SelectERC20TokenDialog } from '../../../web3/UI/SelectERC20TokenDialog'
@@ -97,7 +97,7 @@ function DonateDialogUI(props: DonateDialogUIProps) {
 
     //#region approve ERC20
     const BulkCheckoutAddress = useConstant(GITCOIN_CONSTANT, 'BULK_CHECKOUT_ADDRESS')
-    const [approveState, approveCallback] = useTokenApproveCallback(token, amount, BulkCheckoutAddress)
+    const [approveState, approveCallback] = useERC20TokenApproveCallback(token, amount, BulkCheckoutAddress)
     const onApprove = useCallback(async () => {
         if (approveState !== ApproveState.NOT_APPROVED) return
         await approveCallback()

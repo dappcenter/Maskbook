@@ -4,7 +4,7 @@ import { useAccount } from './useAccount'
 import { useConstant } from './useConstant'
 import { useERC20TokenContract } from '../contracts/useERC20TokenContract'
 import { Token, EthereumTokenType } from '../types'
-import { useTokenAllowance } from './useTokenAllowance'
+import { useERC20TokenAllowance } from './useERC20TokenAllowance'
 import { useTokenBalance } from './useTokenBalance'
 import { CONSTANTS } from '../constants'
 import { useTransactionReceipt } from './useTransaction'
@@ -19,12 +19,12 @@ export enum ApproveState {
     APPROVED,
 }
 
-export function useTokenApproveCallback(token?: Token, amount?: string, spender?: string) {
+export function useERC20TokenApproveCallback(token?: Token, amount?: string, spender?: string) {
     const ETH_ADDRESS = useConstant(CONSTANTS, 'ETH_ADDRESS')
     const account = useAccount()
     const erc20Contract = useERC20TokenContract(token?.address ?? ETH_ADDRESS)
     const { value: balance } = useTokenBalance(token)
-    const { value: allowance } = useTokenAllowance(token, spender)
+    const { value: allowance } = useERC20TokenAllowance(token, spender)
 
     const [approveHash, setApproveHash] = useState('')
     const receipt = useTransactionReceipt(account, approveHash)

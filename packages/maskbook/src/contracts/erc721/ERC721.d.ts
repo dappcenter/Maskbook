@@ -17,35 +17,39 @@ export class Erc721 extends Contract {
     constructor(jsonInterface: any[], address?: string, options?: ContractOptions)
     clone(): Erc721
     methods: {
-        approve(to: string, tokenId: number | string): TransactionObject<void>
-
-        mint(to: string, tokenId: number | string): TransactionObject<void>
-
-        safeTransferFrom(from: string, to: string, tokenId: number | string): TransactionObject<void>
-
-        setApprovalForAll(to: string, approved: boolean): TransactionObject<void>
-
-        transferFrom(from: string, to: string, tokenId: number | string): TransactionObject<void>
+        supportsInterface(interfaceId: string | number[]): TransactionObject<boolean>
 
         balanceOf(owner: string): TransactionObject<string>
 
+        ownerOf(tokenId: number | string): TransactionObject<string>
+
+        name(): TransactionObject<string>
+
+        symbol(): TransactionObject<string>
+
+        tokenURI(tokenId: number | string): TransactionObject<string>
+
+        baseURI(): TransactionObject<string>
+
+        tokenOfOwnerByIndex(owner: string, index: number | string): TransactionObject<string>
+
+        totalSupply(): TransactionObject<string>
+
+        tokenByIndex(index: number | string): TransactionObject<string>
+
+        approve(to: string, tokenId: number | string): TransactionObject<void>
+
         getApproved(tokenId: number | string): TransactionObject<string>
+
+        setApprovalForAll(operator: string, approved: boolean): TransactionObject<void>
 
         isApprovedForAll(owner: string, operator: string): TransactionObject<boolean>
 
-        ownerOf(tokenId: number | string): TransactionObject<string>
+        transferFrom(from: string, to: string, tokenId: number | string): TransactionObject<void>
 
-        supportsInterface(interfaceId: string | number[]): TransactionObject<boolean>
+        safeTransferFrom(from: string, to: string, tokenId: number | string): TransactionObject<void>
     }
     events: {
-        Transfer: ContractEvent<{
-            from: string
-            to: string
-            tokenId: string
-            0: string
-            1: string
-            2: string
-        }>
         Approval: ContractEvent<{
             owner: string
             approved: string
@@ -61,6 +65,14 @@ export class Erc721 extends Contract {
             0: string
             1: string
             2: boolean
+        }>
+        Transfer: ContractEvent<{
+            from: string
+            to: string
+            tokenId: string
+            0: string
+            1: string
+            2: string
         }>
         allEvents: (options?: EventOptions, cb?: Callback<EventLog>) => EventEmitter
     }
