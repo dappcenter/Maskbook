@@ -6,6 +6,7 @@ import { Election2020PluginID } from './constants'
 import { Election2020MetadataReader } from './helpers'
 import { US_PARTY_TYPE, US_STATE_TYPE } from './types'
 import { ElectionCard } from './UI/ElectionCard'
+import { ElectionPacket } from './UI/ElectionPacket'
 import { ElectionPacketsInspector } from './UI/ElectionPacketsInspector'
 
 export const Election2020PluginDefine: PluginConfig = {
@@ -26,8 +27,7 @@ function Renderer() {
     return (
         <MaskbookPluginWrapper pluginName="NFT Packet">
             <Suspense fallback={<SnackbarContent message="Maskbook is loading this plugin..." />}>
-                <ElectionCard stateId={US_STATE_TYPE.AK} tokenId={1000} partyType={US_PARTY_TYPE.BLUE} />
-                <ElectionCard stateId={US_STATE_TYPE.AK} tokenId={1000} partyType={US_PARTY_TYPE.RED} />
+                <ElectionPacket />
             </Suspense>
         </MaskbookPluginWrapper>
     )
