@@ -182,3 +182,13 @@ declare module '@transak/transak-sdk' {
 
     export default TransakSDK
 }
+
+declare module '*.png' {
+    const content: string
+    export default content
+}
+
+declare module '*.jpg' {
+    const content: string
+    export default content
+}

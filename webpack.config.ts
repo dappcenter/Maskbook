@@ -68,6 +68,7 @@ export default function (cli_env: Record<string, boolean> = {}, argv: any) {
                 { test: /(async-call|webextension).+\.js$/, enforce: 'pre', use: ['source-map-loader'] },
                 { parser: { requireEnsure: false, amd: false, system: false } },
                 getTypeScriptLoader(),
+                getURLLoader(),
             ],
             //#region Dismiss warning in gun
             wrappedContextCritical: false,
@@ -215,6 +216,16 @@ export default function (cli_env: Record<string, boolean> = {}, argv: any) {
                     before: hmr ? [ReactRefreshTypeScriptTransformer()] : undefined,
                 }),
             },
+        }
+    }
+    function getURLLoader(): RuleSetRule {
+        return {
+            test: /\.(png|jpg|gif)$/i,
+            use: [
+                {
+                    loader: 'url-loader',
+                },
+            ],
         }
     }
     function getBuildNotificationPlugins() {

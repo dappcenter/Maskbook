@@ -1,21 +1,69 @@
 import React from 'react'
-import { Card, CardContent, createStyles, makeStyles, Typography } from '@material-ui/core'
+import { Card, CardContent, CardHeader, createStyles, makeStyles, Typography } from '@material-ui/core'
 import { ElectionCard } from './ElectionCard'
 import { US_PARTY_TYPE, US_STATE_TYPE } from '../types'
+import FlagImage from '../assets/flag.png'
+import FireworksImage from '../assets/fireworks.png'
+
+console.log('DEBUG: images')
+console.log(FlagImage)
+console.log(FireworksImage)
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         root: {
             backgroundImage: 'linear-gradient(180deg, #121d76 0%, #2c39b9 100%)',
+            position: 'relative',
+
+            '&::before, &::after': {
+                content: '""',
+                width: '90%',
+                height: 260,
+                backgroundImage: `url(${FlagImage})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+
+                bottom: '-21%',
+                position: 'absolute',
+                zIndex: 0,
+            },
+            '&::before': {
+                left: '-12%',
+            },
+            '&::after': {
+                right: '-12%',
+                transform: 'scaleX(-1)',
+            },
         },
-        content: {},
+        header: {
+            zIndex: 0,
+            position: 'relative',
+            padding: 0,
+
+            '&::before': {
+                content: '""',
+                width: '100%',
+                height: 260,
+                backgroundImage: `url(${FireworksImage})`,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                top: 0,
+                left: 0,
+                position: 'absolute',
+                zIndex: 0,
+            },
+        },
+        content: {
+            zIndex: 1,
+            position: 'relative',
+            paddingBottom: `${theme.spacing(2)}px !important`,
+        },
         actions: {},
         cards: {
             overflow: 'auto',
             display: 'flex',
             flexDirection: 'row',
-            marginTop: theme.spacing(4),
-            marginBottom: theme.spacing(2),
+            marginTop: theme.spacing(3),
 
             scrollbarWidth: 'none',
             '&::-webkit-scrollbar': {
@@ -41,7 +89,20 @@ const useStyles = makeStyles((theme) =>
                 paddingRight: 0,
             },
         },
-        note: {},
+        note: {
+            fontSize: 12,
+            fontWeight: 500,
+            textShadow: [
+                '-1px 0 0 #121d76',
+                '1px 0 0 #121d76',
+                '0 -1px 0 #121d76',
+                '0 1px 0 #121d76',
+                '-1px -1px 0 #121d76',
+                '1px -1px 0 #121d76',
+                '-1px 1px 0 #121d76',
+                '1px 1px 0 #121d76',
+            ].join(','),
+        },
     }),
 )
 
@@ -50,7 +111,8 @@ export interface ElectionPacketProps {}
 export function ElectionPacket(props: ElectionPacketProps) {
     const classes = useStyles()
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} elevation={0}>
+            <CardHeader className={classes.header}></CardHeader>
             <CardContent className={classes.content}>
                 <Typography className={classes.title} gutterBottom variant="h5" component="h2">
                     2020 Presidential Election
