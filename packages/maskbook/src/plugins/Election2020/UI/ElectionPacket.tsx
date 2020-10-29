@@ -1,13 +1,11 @@
 import React from 'react'
-import { Card, CardContent, CardHeader, createStyles, makeStyles, Typography } from '@material-ui/core'
+import { Card, CardContent, CardHeader, createStyles, Link, makeStyles, Typography } from '@material-ui/core'
+import OpenInNewIcon from '@material-ui/icons/OpenInNew'
+import classNames from 'classnames'
 import { ElectionCard } from './ElectionCard'
 import { US_PARTY_TYPE, US_STATE_TYPE } from '../types'
 import FlagImage from '../assets/flag.png'
 import FireworksImage from '../assets/fireworks.png'
-
-console.log('DEBUG: images')
-console.log(FlagImage)
-console.log(FireworksImage)
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -71,13 +69,15 @@ const useStyles = makeStyles((theme) =>
             },
         },
         notes: {
+            fontSize: 12,
+            fontWeight: 500,
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
         },
         title: {
-            fontSize: 24,
+            fontSize: '24px !important',
             textAlign: 'center',
         },
         card: {
@@ -90,8 +90,7 @@ const useStyles = makeStyles((theme) =>
             },
         },
         note: {
-            fontSize: 12,
-            fontWeight: 500,
+            fontSize: 'inherit',
             textShadow: [
                 '-1px 0 0 #121d76',
                 '1px 0 0 #121d76',
@@ -102,6 +101,10 @@ const useStyles = makeStyles((theme) =>
                 '-1px 1px 0 #121d76',
                 '1px 1px 0 #121d76',
             ].join(','),
+        },
+        link: {
+            display: 'flex',
+            alignItems: 'center',
         },
     }),
 )
@@ -114,12 +117,26 @@ export function ElectionPacket(props: ElectionPacketProps) {
         <Card className={classes.root} elevation={0}>
             <CardHeader className={classes.header}></CardHeader>
             <CardContent className={classes.content}>
-                <Typography className={classes.title} gutterBottom variant="h5" component="h2">
+                <Typography
+                    className={classNames(classes.title, classes.note)}
+                    gutterBottom
+                    variant="h5"
+                    component="h2">
                     2020 Presidential Election
                 </Typography>
                 <div className={classes.notes}>
                     <Typography className={classes.note}>Has been collected 1/51</Typography>
-                    <Typography className={classes.note}>KING</Typography>
+                    <Typography className={classes.note}>
+                        <Link
+                            className={classes.link}
+                            color="textPrimary"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href="https://mask.io">
+                            <span>KING</span>
+                            <OpenInNewIcon fontSize="inherit" />
+                        </Link>
+                    </Typography>
                 </div>
                 <div className={classes.cards}>
                     {new Array(20).fill(0).map((_, i) => (
