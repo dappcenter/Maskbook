@@ -1,12 +1,6 @@
 import type { Contract } from 'web3-eth-contract'
 import { useMulticallContract } from '../contracts/useMulticallContract'
-import { useConstant } from './useConstant'
-import { CONSTANTS } from '../constants'
 import { useState, useCallback, useMemo } from 'react'
-import { useAsync } from 'react-use'
-import { nonFunctionalWeb3 } from '../web3'
-import { useERC20TokenContract } from '../contracts/useERC20TokenContract'
-import type { Erc20 } from '../../contracts/splitter/ERC20'
 
 //#region useMulticallCallback
 interface Call {
