@@ -1,23 +1,22 @@
-import { useAsync } from 'react-use'
+import { useMemo } from 'react'
 import { useERC721TokenContract } from '../contracts/useERC721TokenContract'
-import { EthereumTokenType, Token } from '../types'
+import type { Token } from '../types'
 import { useAccount } from './useAccount'
 import { useChainId } from './useChainState'
+import { useSingleContractMultipleData } from './useMulticall'
 import { useTokenBalance } from './useTokenBalance'
 
-export function useERC721TokensOfOwner(token?: PartialRequired<Token, 'address' | 'type'>) {
-    const chainId = useChainId()
+export function useERC721TokenIdsOfOwner(token?: PartialRequired<Token, 'address' | 'type'>) {
     const account = useAccount()
     const { value: balanceOf } = useTokenBalance(token)
     const erc721Contract = useERC721TokenContract(token?.address ?? '')
-
-    const calls = [] as string[]
-
-    return useAsync(async () => {
-        if (!account) return
-        if (!token?.address) return
-        if (token.type !== EthereumTokenType.ERC721) return
-        if (!erc721Contract) return
-        if (balanceOf === '0') return
-    }, [account, chainId /* re-calc when switch the chain */, token, balanceOf, erc721Contract])
+    const { names, params } = useMemo(
+        () => ({
+            names: new Array(balanceOf).fill('tokenOfOwnerByIndex') as 'tokenOfOwnerByIndex'[],
+            params: new Array(balanceOf).fill('').map((_, i) => [account, i] as [string, number]),
+        }),
+        [account, balanceOf],
+    )
+    const [results] = useSingleContractMultipleData(erc721Contract, names, params)
+    return results.map((x) => x.value)
 }
