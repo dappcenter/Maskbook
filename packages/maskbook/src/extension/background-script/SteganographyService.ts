@@ -35,6 +35,11 @@ const dimensionPreset: (Dimension & { mask: Mask })[] = [
         height: 680,
         mask: 'transparent',
     },
+    {
+        width: 1000,
+        height: 558,
+        mask: 'transparent',
+    },
 ]
 
 const defaultOptions = {
