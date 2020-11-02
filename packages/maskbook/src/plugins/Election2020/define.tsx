@@ -2,17 +2,18 @@ import { SnackbarContent } from '@material-ui/core'
 import React, { Suspense } from 'react'
 import MaskbookPluginWrapper from '../MaskbookPluginWrapper'
 import type { PluginConfig } from '../plugin'
-import { Election2020PluginID } from './constants'
+import { Election2020MetaKey, Election2020PluginID } from './constants'
 import { Election2020MetadataReader } from './helpers'
-import { US_PARTY_TYPE, US_STATE_TYPE } from './types'
+import type { Election2020JSONPayload, US_PARTY_TYPE, US_STATE_TYPE } from './types'
 import { createCompositionDialog } from '../utils/createCompositionDialog'
 import { ElectionCard } from './UI/ElectionCard'
 import { ElectionPacket } from './UI/ElectionPacket'
 import { ElectionPacketsInspector } from './UI/ElectionPacketsInspector'
-import { CompositionDialog } from './UI/CompositionDialog'
+import { ElectionCompositionDialog } from './UI/ElectionCompositionDialog'
+import { resolveStateName, resolveCandidateName } from './pipes'
 
 const [ElectionCompositionEntry, ElectionCompositionUI] = createCompositionDialog('🎫  Election', (props) => (
-    <CompositionDialog {...props} />
+    <ElectionCompositionDialog {...props} />
 ))
 
 export const Election2020PluginDefine: PluginConfig = {
@@ -27,6 +28,16 @@ export const Election2020PluginDefine: PluginConfig = {
 
         return <Renderer />
     },
+    postDialogMetadataBadge: new Map([
+        [
+            Election2020MetaKey,
+            (payload: Election2020JSONPayload) => {
+                return `A Election Packet of ${resolveStateName(payload.state)} and ${resolveCandidateName(
+                    payload.winner,
+                )} is the winner.`
+            },
+        ],
+    ]),
     PageComponent: ElectionCompositionUI,
     postDialogEntries: [ElectionCompositionEntry],
 }
